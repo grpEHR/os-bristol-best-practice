@@ -14,33 +14,12 @@ All outputs for release should be classified as `moderately_sensitive` in action
     readr::write_csv(object, 
                      file = file.path("output", "mydata.csv"))
     ```  
-  - Do not save outputs to subdirectories of the `output` folder, otherwise running the study definition on GitHub Actions will probably fail with an error message such as  
-    ```{r}
-    #| fig-alt: Screenshot of a failing GitHub actions workflow.
-    knitr::include_graphics("img/output-subdir-error.png")
-    ```
-    ```
-    Error in file(file, ifelse(append, "a", "w")) : 
-       cannot open the connection
-     Calls: write.csv -> eval.parent -> eval -> eval -> write.table -> file
-     In addition: Warning message:
-     In file(file, ifelse(append, "a", "w")) :
-       cannot open file '/workspace/output/descriptive/tables/table1.csv': No such file or directory
-     Backtrace:
-     1: file(file, ifelse(append, "a", "w"))
-     2: write.table(table1_all$table_body, here::here("output", "descriptive", 
-     3: eval(expr, p)
-     4: eval(expr, p)
-     5: eval.parent(Call)
-     6: write.csv(table1_all$table_body, here::here("output", "descriptive",
-
-    Error: Process completed with exit code 1.
-    ```  
 
 ## Figures
 
-- Use `.svg` for figure outputs that will be sent to output checkers
+- Use `.svg` or `.png` for figure outputs that will be sent to output checkers
 - Where applicable (e.g., histograms), start the *x*-axis at 5 instead of 0 to ensure low counts are not exported
+- Where applicable, include a supporting `.csv` file with the data from the figure for output checkers
 
 ## Releasing output
 
