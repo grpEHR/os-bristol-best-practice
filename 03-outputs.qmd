@@ -16,6 +16,7 @@ All outputs for release should be classified as `moderately_sensitive` in action
     ```  
   - Do not save outputs to subdirectories of the `output` folder, otherwise running the study definition on GitHub Actions will probably fail with an error message such as  
     ```{r}
+    #| fig-alt: Screenshot of a failing GitHub actions workflow.
     knitr::include_graphics("img/output-subdir-error.png")
     ```
     ```

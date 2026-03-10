@@ -35,10 +35,12 @@ knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 - Define your repo as an RStudio project in RStudio as follows
   - File | New Project...  
     ```{r}
+    #| fig-alt: Screenshot of creating an RStudio project.
     knitr::include_graphics("img/rstudio-newproject-1.png")
     ```  
   - Existing Directory  
     ```{r}
+    #| fig-alt: Screenshot of creating an RStudio project from an existing directory.
     knitr::include_graphics("img/rstudio-newproject-2.png")
     ```  
   - Then find your repo

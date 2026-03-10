@@ -13,6 +13,8 @@ To enable this
 * Go to *Features in development* and within that the *Beta features tab*
 * Check the box for *Use Rosetta for x86/amd64 emulation on Apple Silicon*
 * Click *Apply & restart*
-  ```{r, out.width="100%"}
+  ```{r}
+  #| out-width: "100%"
+  #| fig-alt: Screenshot of turning on the Docker Rosette feature.
   knitr::include_graphics("img/docker-rosetta-linux.png")
   ```  
