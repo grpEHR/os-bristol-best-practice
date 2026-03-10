@@ -15,7 +15,7 @@ book:
     - 99-session-info.qmd
   repo-url: https://github.com/grpEHR/os-bristol-best-practice
   repo-actions: source
-  site-url: https://remlapmot.github.io/os-bristol-best-practice/
+  site-url: https://grpEHR.github.io/os-bristol-best-practice/
 
 format:
   html:
