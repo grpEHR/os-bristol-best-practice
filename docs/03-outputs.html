@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.30">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>3&nbsp; Outputs for release – University of Bristol OpenSAFELY Best Practice</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./02-r-code.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -199,9 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#tables" id="toc-tables" class="nav-link active" data-scroll-target="#tables"><span class="header-section-number">3.1</span> Tables</a></li>
-  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures"><span class="header-section-number">3.2</span> Figures</a></li>
-  <li><a href="#releasing-output" id="toc-releasing-output" class="nav-link" data-scroll-target="#releasing-output"><span class="header-section-number">3.3</span> Releasing output</a></li>
+  <li><a href="#redaction-and-rounding" id="toc-redaction-and-rounding" class="nav-link active" data-scroll-target="#redaction-and-rounding"><span class="header-section-number">3.1</span> Redaction and rounding</a></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables"><span class="header-section-number">3.2</span> Tables</a></li>
+  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures"><span class="header-section-number">3.3</span> Figures</a></li>
+  <li><a href="#other-outputs" id="toc-other-outputs" class="nav-link" data-scroll-target="#other-outputs"><span class="header-section-number">3.4</span> Other outputs</a></li>
+  <li><a href="#releasing-output" id="toc-releasing-output" class="nav-link" data-scroll-target="#releasing-output"><span class="header-section-number">3.5</span> Releasing output</a></li>
+  <li><a href="#final-checklist" id="toc-final-checklist" class="nav-link" data-scroll-target="#final-checklist"><span class="header-section-number">3.6</span> Final checklist</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/grpEHR/os-bristol-best-practice/blob/main/03-outputs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -227,49 +232,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>All outputs for release should be classified as <code>moderately_sensitive</code> in actions. OpenSAFELY does not permit information relating to between 1 and less than 5 individuals to be released. Redaction functions are available from other users to help you prepare your output.</p>
-<section id="tables" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="tables"><span class="header-section-number">3.1</span> Tables</h2>
+<section id="redaction-and-rounding" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="redaction-and-rounding"><span class="header-section-number">3.1</span> Redaction and rounding</h2>
+<p>All outputs for release should be classified as <code>moderately_sensitive</code> in actions.</p>
+<p>OpenSAFELY does not permit information relating to between 1 and less than 5 individuals to be released. Redaction functions are available from other users to help you prepare your output.</p>
+<p>If you have to maintain “0”s in your output, please use “midpoint6” rounding, which rounds to the nearest odd multiple of 3. Otherwise, please round to the nearest 5 and redact any counts &lt;=7.</p>
+<p>For up-to-date information about statistical disclosure control, please see the relevant <a href="https://docs.opensafely.org/outputs/sdc/">OpenSAFELY documentation</a>.</p>
+</section>
+<section id="tables" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="tables"><span class="header-section-number">3.2</span> Tables</h2>
 <ul>
 <li><p>Use <code>readr::write_csv()</code> to save <code>.csv</code> files that will be sent to output checkers (this is about twice as fast as <code>utils::write.csv()</code> and does not write row names).</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(object, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">file =</span> <span class="fu">file.path</span>(<span class="st">"output"</span>, <span class="st">"mydata.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Do not save outputs to subdirectories of the <code>output</code> folder, otherwise running the study definition on GitHub Actions will probably fail with an error message such as</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/output-subdir-error.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Screenshot of a failing GitHub actions workflow." width="316"></p>
-</figure>
-</div>
-</div>
-</div>
-<pre><code>Error in file(file, ifelse(append, "a", "w")) : 
-   cannot open the connection
- Calls: write.csv -&gt; eval.parent -&gt; eval -&gt; eval -&gt; write.table -&gt; file
- In addition: Warning message:
- In file(file, ifelse(append, "a", "w")) :
-   cannot open file '/workspace/output/descriptive/tables/table1.csv': No such file or directory
- Backtrace:
- 1: file(file, ifelse(append, "a", "w"))
- 2: write.table(table1_all$table_body, here::here("output", "descriptive", 
- 3: eval(expr, p)
- 4: eval(expr, p)
- 5: eval.parent(Call)
- 6: write.csv(table1_all$table_body, here::here("output", "descriptive",
-
-Error: Process completed with exit code 1.</code></pre></li>
+<li><p>Make sure your <code>.csv</code> file is not longer than 5000 rows, or larger than 16 MB</p></li>
+<li><p>Make sure that any column names are understandable for reviewers.</p></li>
 </ul>
 </section>
-<section id="figures" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="figures"><span class="header-section-number">3.2</span> Figures</h2>
+<section id="figures" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="figures"><span class="header-section-number">3.3</span> Figures</h2>
 <ul>
-<li>Use <code>.svg</code> for figure outputs that will be sent to output checkers</li>
+<li>Use <code>.svg</code>, <code>.jpeg</code>, or <code>.png</code> for figure outputs that will be sent to output checkers</li>
 <li>Where applicable (e.g., histograms), start the <em>x</em>-axis at 5 instead of 0 to ensure low counts are not exported</li>
+<li>Include a supporting <code>.csv</code> file with the underlying aggregated data from the figure</li>
+<li>Rather than a requesting a figure, it may be more appropriate to request a release of the underlying data, so that the figures can be generated (and tweaked) locally.</li>
+<li>Make sure your file is not larger than 16 MB</li>
 </ul>
 </section>
-<section id="releasing-output" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="releasing-output"><span class="header-section-number">3.3</span> Releasing output</h2>
+<section id="other-outputs" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="other-outputs"><span class="header-section-number">3.4</span> Other outputs</h2>
+<ul>
+<li>Other file types can be released, but do consider whether they could be released in <code>.csv</code> format instead. For filetypes not listed here, you may need to email OpenSAFELY directly to ask for permission to release them.</li>
+<li>The maximum file size is 16MB, regardless of filetype.</li>
+<li><code>.txt</code> files can be released and are also viewable on L4</li>
+<li><code>.json</code> files can be released, but as with tables, make sure that the attributes are easily understandable for reviewers</li>
+</ul>
+</section>
+<section id="releasing-output" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="releasing-output"><span class="header-section-number">3.5</span> Releasing output</h2>
 <ul>
 <li>Ensure your outputs are in the correct formats
 <ul>
@@ -277,9 +277,23 @@ Error: Process completed with exit code 1.</code></pre></li>
 <li><code>.txt</code> or <code>.html</code> if you want to view them in L4</li>
 </ul></li>
 <li>Ensure your outputs are marked as <code>moderately_sensitive</code> in your <code>project.yaml</code></li>
-<li>To release an output, please complete the ‘Output files for review’ section of <a href="https://docs.opensafely.org/documents/OpenSAFELY_Output_Review_Form_15_11_21.docx">this form</a> and email to your assigned Bristol L4 access person</li>
-<li>Bristol L4 access people will check the output on the server on your behalf, complete the rest of the form (including files locations), and email to datarelease@opensafely.org for final approval</li>
+<li>To release an output, please log into <a href="https://docs.opensafely.org/outputs/viewing-with-airlock/">Airlock</a> and complete the output request</li>
+<li>To help with forming the output request, a guidance form can be found on the grp-EHR <a href="https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&amp;csf=1&amp;web=1&amp;e=1FTzbP">sharepoint</a></li>
 </ul>
+</section>
+<section id="final-checklist" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="final-checklist"><span class="header-section-number">3.6</span> Final checklist</h2>
+<p>The <a href="https://docs.opensafely.org/outputs/requesting-file-release/">OpenSAFELY documentation</a> provides the following checklist to consult before submitting a review request.</p>
+<ol type="1">
+<li>Do your results adhere to the OpenSAFELY permitted study results policy</li>
+<li>Are all of the outputs of the allowed file types?</li>
+<li>Have you redacted any low counts?</li>
+<li>Have you rounded any counts (including counts underlying rates)?</li>
+<li>Have you supplied underlying counts for all of your results?</li>
+<li>Are all of the outputs clearly described? Have you provided all of the context needed to review each output in isolation? Have you described the disclosure controls you have applied to each output?</li>
+<li>If you are requesting the release of log files, are you sure they need to be released?</li>
+<li>Are all of the requested files below the maximum file size?</li>
+</ol>
 <!--
 ## Jupyter and Rmd notebooks
 
