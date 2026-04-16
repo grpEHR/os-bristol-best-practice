@@ -61,31 +61,3 @@ The [OpenSAFELY documentation](https://docs.opensafely.org/outputs/requesting-fi
   6. Are all of the outputs clearly described? Have you provided all of the context needed to review each output in isolation? Have you described the disclosure controls you have applied to each output? 
   7. If you are requesting the release of log files, are you sure they need to be released? 
   8. Are all of the requested files below the maximum file size?
-
-```{=html}
-<!--
-## Jupyter and Rmd notebooks
-
-- If you use a Jupyter notebook create a folder called `notebooks` at the top level of your repo
-  - Only use Python code chunks within the notebook
-  - The action to compile the notebook will be of the form
-
-    ``` yaml
-      generate_notebook:
-        run: jupyter:latest jupyter nbconvert /workspace/analysis/report.ipynb --execute --to html --template basic --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        needs:
-        outputs:
-          moderately_sensitive:
-            notebook: output/report.html
-    ```
-
-- If you use an R Markdown notebook within your repo create a folder called `rmarkdown` at the top level of the repo
-  - In the YAML header of the .Rmd file define the output type as `output: html_document`
-  - Write a separate .R script that runs a single command 
-  
-    ``` r
-    rmarkdown::render('myrmdfile.Rmd', encoding = 'UTF-8') 
-    ```  
-  - And write an `r` action to run the script which will produce the .html output file
--->
-```
