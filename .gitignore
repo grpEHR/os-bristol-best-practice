@@ -37,6 +37,10 @@ rsconnect/
 
 _main.rds
 
+# Quarto files
 /.quarto/
 
 **/*.quarto_ipynb
+
+# Readme html
+README.html
