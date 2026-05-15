@@ -2,7 +2,9 @@
 
 Rendered at [https://grpehr.github.io/os-bristol-best-practice/](https://grpehr.github.io/os-bristol-best-practice/)
 
-This github is currently being updated
+This github is currently being updated. 
+
+If you wish to update a file, please directly alter the .qmd file (rather than a .html file), and then commit both the .qmd and .html file to the repo
 
 ***
 
@@ -29,7 +31,7 @@ quarto render
 
 or 
 
-in Visual Studio Code by installing the Quarto extention
+in Visual Studio Code by installing the Quarto extention, and using the "preview" button near the top-right of the screen
 
 ***
 
