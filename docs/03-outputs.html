@@ -359,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="allowed-file-types" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="allowed-file-types"><span class="header-section-number">3.3</span> Allowed file types</h2>
-<p>Only certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. Please check the [documentation]( For up-to-date information about statistical disclosure control, please see the relevant <a href="hhttps://docs.opensafely.org/outputs/requesting-file-release/#allowed-file-types">OpenSAFELY documentation</a> for up to date information. The maximum file size is 16MB, regardless of filetype.</p>
+<p>Only certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. For up-to-date information about statistical disclosure control, please see the relevant <a href="https://docs.opensafely.org/outputs/requesting-file-release/#allowed-file-types">OpenSAFELY documentation</a> for up to date information. The maximum file size is 16MB, regardless of filetype.</p>
 <section id="tables" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="tables"><span class="header-section-number">3.3.1</span> Tables</h3>
 <ul>
@@ -396,9 +396,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When you are ready to release your ouput, please check your outputs carefully (see the <a href="https://docs.opensafely.org/outputs/output-checking/">documentation</a> for guidance) and then follow the steps below:</p>
 <ul>
 <li>Ensure your outputs are marked as <code>moderately_sensitive</code> in your <code>project.yaml</code></li>
-<li>Log into <a href="https://docs.opensafely.org/outputs/viewing-with-airlock/">Airlock</a> and complete the output request</li>
-<li>Examples of outputs can be found below. If you are creating a request for someone to fill out on your behalf, please adapt the guidance form that can be found on the grp-EHR <a href="https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&amp;csf=1&amp;web=1&amp;e=1FTzbP">sharepoint</a></li>
+<li>Log into <a href="https://docs.opensafely.org/outputs/viewing-with-airlock/">Airlock</a> and complete the output request. You can find examples of what Airlock looks like in another part of the <a href="https://docs.opensafely.org/using-opensafely/viewing-and-releasing-outputs/viewing-and-releasing-with-airlock/how-tos/create-and-submit-a-release-request/">OpenSAFELY documentation</a>. You will not be able to submit a request in any way other than through Airlock.</li>
+<li>Generic examples of outputs can be found below. If you are creating a request (particularly if you’d like feedback from others), please adapt the guidance form that can be found on the grp-EHR <a href="https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&amp;csf=1&amp;web=1&amp;e=1FTzbP">sharepoint</a> and save it to your project directory so that you have a record of your request.</li>
 </ul>
+<p>Below, we have some example outputs from Bristol projects, with a level of detail that our output checkers have previously found helpful. You should include information in enough detail that reviewers can understand the output without needing to refer to other documentation. Each example will contain the following information:</p>
+<ul>
+<li>Filegroup: this is the filegroup that the output belongs to, which is useful if you are requesting multiple files of the same format</li>
+<li>File location: this is the location of the file/s within your project</li>
+<li>Context: this is a description of the output, including what it shows and how it was generated.</li>
+<li>Column descriptions: this is a description of each column in the output.</li>
+<li>Controls: this is a description of the disclosure controls that have been applied to the output, including any redaction or rounding that has been applied.</li>
+</ul>
+<p>If you are re-requesting an output, you should include what has been updated since that last request. Additionally for re-requests, you can copy the text directly from your previous request in Airlock and then update it.</p>
 <section id="example-output-table-1" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="example-output-table-1"><span class="header-section-number">3.4.1</span> Example Output: Table 1</h3>
 <table class="caption-top table">
@@ -442,17 +451,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><strong>Filegroup: flow</strong></td>
 </tr>
 <tr class="even">
-<td><strong>File location: output/flow_midpoint6.csv</strong></td>
+<td><strong>File location: output/flow_round5.csv</strong></td>
 </tr>
 <tr class="odd">
-<td><p>Context: Table with numbers needed to generate a flow diagram, demonstrating how many people were removed from the dataset due to each of the inclusion/exclusion criteria and the quality assurance checks.</p>
+<td><p>Context: Table with numbers needed to generate a flow diagram, demonstrating how many people were removed from the dataset due to each of the inclusion/exclusion criteria and the quality assurance checks</p>
 <p><strong>Column descriptions </strong></p>
 <p>Description: restrictive criteria being applied</p>
-<p>N_midpoint6: rounded total number of people remaining in the analysis</p>
-<p>removed_midpoint6_derived: rounded number of people removed due to criterion being applied</p></td>
+<p>N_round5: rounded total number of people remaining in the analysis</p>
+<p>removed_round5_derived: rounded number of people removed due to criterion being applied</p></td>
 </tr>
 <tr class="even">
-<td>Controls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output</td>
+<td>Controls: We rounded all counts to the nearest 5 and redacted any counts &lt;=7.</td>
 </tr>
 </tbody>
 </table>
@@ -468,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><strong>Filegroup: model output</strong></td>
 </tr>
 <tr class="even">
-<td><strong>File location: output/model_output-main-midpoint6.csv</strong> <strong>File location: output/model_output-subgroup-midpoint6.csv</strong></td>
+<td><strong>File location: output/model_output-main-midpoint6.csv</strong>, <strong>output/model_output-subgroup-midpoint6.csv</strong></td>
 </tr>
 <tr class="odd">
 <td><p>These data provide hazard ratios and supporting information, presented in 2 CSV files covering the whole population and a subgroup. These were the main outputs of the project.</p>

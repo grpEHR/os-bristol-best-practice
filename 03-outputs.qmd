@@ -58,8 +58,7 @@ roundmid_any <- function(x, to = 6) {
 
 ## Allowed file types
 
-Only certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. Please check the [documentation](
-For up-to-date information about statistical disclosure control, please see the relevant [OpenSAFELY documentation](hhttps://docs.opensafely.org/outputs/requesting-file-release/#allowed-file-types) for up to date information. The maximum file size is 16MB, regardless of filetype.
+Only certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. For up-to-date information about statistical disclosure control, please see the relevant [OpenSAFELY documentation](https://docs.opensafely.org/outputs/requesting-file-release/#allowed-file-types) for up to date information. The maximum file size is 16MB, regardless of filetype.
 
 ### Tables
 
@@ -92,10 +91,18 @@ For up-to-date information about statistical disclosure control, please see the 
 When you are ready to release your ouput, please check your outputs carefully (see the [documentation](https://docs.opensafely.org/outputs/output-checking/) for guidance) and then follow the steps below:
 
 - Ensure your outputs are marked as `moderately_sensitive` in your `project.yaml`
-- Log into [Airlock](https://docs.opensafely.org/outputs/viewing-with-airlock/) and complete the output request
-- Examples of outputs can be found below. If you are creating a request for someone to fill out on your behalf, please adapt the guidance form that can be found on the grp-EHR [sharepoint](https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&csf=1&web=1&e=1FTzbP)
+- Log into [Airlock](https://docs.opensafely.org/outputs/viewing-with-airlock/) and complete the output request. You can find examples of what Airlock looks like in another part of the [OpenSAFELY documentation](https://docs.opensafely.org/using-opensafely/viewing-and-releasing-outputs/viewing-and-releasing-with-airlock/how-tos/create-and-submit-a-release-request/). You will not be able to submit a request in any way other than through Airlock.
+- Generic examples of outputs can be found below. If you are creating a request (particularly if you'd like feedback from others), please adapt the guidance form that can be found on the grp-EHR [sharepoint](https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&csf=1&web=1&e=1FTzbP) and save it to your project directory so that you have a record of your request.
 
+Below, we have some example outputs from Bristol projects, with a level of detail that our output checkers have previously found helpful. You should include information in enough detail that reviewers can understand the output without needing to refer to other documentation. Each example will contain the following information:
 
+- Filegroup: this is the filegroup that the output belongs to, which is useful if you are requesting multiple files of the same format
+- File location: this is the location of the file/s within your project
+- Context: this is a description of the output, including what it shows and how it was generated. 
+- Column descriptions: this is a description of each column in the output.
+- Controls: this is a description of the disclosure controls that have been applied to the output, including any redaction or rounding that has been applied.
+
+If you are re-requesting an output, you should include what has been updated since that last request. Additionally for re-requests, you can copy the text directly from your previous request in Airlock and then update it.
 
 
 ### Example Output: Table 1
@@ -135,7 +142,7 @@ When you are ready to release your ouput, please check your outputs carefully (s
 +-----------+
 |**Filegroup: flow**
 +-----------+
-|**File location: output/flow_midpoint6.csv**
+|**File location: output/flow_round5.csv**
 +-----------+
 |Context: Table with numbers needed to generate a flow diagram, demonstrating how many people were removed from the dataset due to each of the inclusion/exclusion criteria and the quality assurance checks. 
 |  
@@ -143,11 +150,11 @@ When you are ready to release your ouput, please check your outputs carefully (s
 |
 |Description: restrictive criteria being applied  
 |
-|N_midpoint6: rounded total number of people remaining in the analysis  
+|N_round5: rounded total number of people remaining in the analysis  
 |
-|removed_midpoint6_derived: rounded number of people removed due to criterion being applied 
+|removed_round5_derived: rounded number of people removed due to criterion being applied 
 +-----------+
-|Controls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output.  
+|Controls: We rounded all counts to the nearest 5 and redacted any counts <=7.
 +-----------+
 
 ### Example Output: Cox model output
@@ -155,8 +162,7 @@ When you are ready to release your ouput, please check your outputs carefully (s
 +-----------+
 |**Filegroup: model output**
 +-----------+
-|**File location: output/model_output-main-midpoint6.csv**
-|**File location: output/model_output-subgroup-midpoint6.csv**
+|**File location: output/model_output-main-midpoint6.csv**, **output/model_output-subgroup-midpoint6.csv**
 +-----------+
 | These data provide hazard ratios and supporting information, presented in 2 CSV files covering the whole population and a subgroup.  These were the main outputs of the project.  
 |
