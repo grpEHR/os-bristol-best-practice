@@ -4,75 +4,209 @@
 knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 ```
 
-All outputs for release should be classified as `moderately_sensitive` in actions. OpenSAFELY does not permit information relating to between 1 and less than 5 individuals to be released. Redaction functions are available from other users to help you prepare your output.
+## Checklist
 
-## Tables
+The [OpenSAFELY documentation](https://docs.opensafely.org/outputs/requesting-file-release/) provides the following checklist to consult before submitting a review request. 
 
-  - Use `readr::write_csv()` to save `.csv` files that will be sent to output checkers (this is about twice as fast as `utils::write.csv()` and does not write row names).
+  1. Do your results adhere to the OpenSAFELY permitted study results policy 
+  2. Are all of the outputs of the allowed file types? 
+  3. Have you redacted any low counts? 
+  4. Have you rounded any counts (including counts underlying rates)? 
+  5. Have you supplied underlying counts for all of your results? 
+  6. Are all of the outputs clearly described? Have you provided all of the context needed to review each output in isolation? Have you described the disclosure controls you have applied to each output? 
+  7. If you are requesting the release of log files, are you sure they need to be released? 
+  8. Are all of the requested files below the maximum file size?
 
-    ``` r
-    readr::write_csv(object, 
-                     file = file.path("output", "mydata.csv"))
-    ```  
-  - Do not save outputs to subdirectories of the `output` folder, otherwise running the study definition on GitHub Actions will probably fail with an error message such as  
-    ```{r}
-    #| fig-alt: Screenshot of a failing GitHub actions workflow.
-    knitr::include_graphics("img/output-subdir-error.png")
-    ```
-    ```
-    Error in file(file, ifelse(append, "a", "w")) : 
-       cannot open the connection
-     Calls: write.csv -> eval.parent -> eval -> eval -> write.table -> file
-     In addition: Warning message:
-     In file(file, ifelse(append, "a", "w")) :
-       cannot open file '/workspace/output/descriptive/tables/table1.csv': No such file or directory
-     Backtrace:
-     1: file(file, ifelse(append, "a", "w"))
-     2: write.table(table1_all$table_body, here::here("output", "descriptive", 
-     3: eval(expr, p)
-     4: eval(expr, p)
-     5: eval.parent(Call)
-     6: write.csv(table1_all$table_body, here::here("output", "descriptive",
+## Redaction and rounding
 
-    Error: Process completed with exit code 1.
-    ```  
+For up-to-date information about statistical disclosure control, please see the relevant [OpenSAFELY documentation](https://docs.opensafely.org/outputs/sdc/).
 
-## Figures
+All outputs for release should be classified as `moderately_sensitive` in actions. 
 
-- Use `.svg` for figure outputs that will be sent to output checkers
-- Where applicable (e.g., histograms), start the *x*-axis at 5 instead of 0 to ensure low counts are not exported
+OpenSAFELY does not permit information relating to between 1 and less than 5 individuals to be released. Redaction functions are available from other users to help you prepare your output.
+
+If you have to maintain "0"s in your output, please use "midpoint6" rounding, which rounds to the nearest odd multiple of 3. Otherwise, please round to the nearest 5 and redact any counts <=7.
+
+### Example Rounding Table
+
+| Count | Midpoint6 | Round5 | 
+|-------|:-----|:-----|
+| 0     | 0    |  0 |  
+| 1     | 3    |  0 |  
+| 2     | 3    |  0 |
+| 3     | 3    |  0 |  
+| 4     | 3    |  0 |  
+| 5     | 3    |  0 |
+| 6     | 3    |  0 |  
+| 7     | 9    |  0 |  
+| 8     | 9    |  10 |
+| 9     | 9    |  10 |  
+| 10    | 9    |  10 |  
+| 11    | 9    |  10 |
+| 12    | 9    |  10 |
+| 13    | 15   |  15 |
+
+### Example R code for midpoint6 rounding
+
+```
+roundmid_any <- function(x, to = 6) {
+  # centers on (integer) midpoint of the rounding points
+  x <- as.numeric(x)
+  ceiling(x / to) * to - (floor(to / 2) * (x != 0))
+}
+```
+
+## Allowed file types
+
+Only certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. For up-to-date information about statistical disclosure control, please see the relevant [OpenSAFELY documentation](https://docs.opensafely.org/outputs/requesting-file-release/#allowed-file-types) for up to date information. The maximum file size is 16MB, regardless of filetype.
+
+### Tables
+
+- Use `readr::write_csv()` to save `.csv` files that will be sent to output checkers (this is about twice as fast as `utils::write.csv()` and does not write row names).
+
+  ``` r
+  readr::write_csv(object, 
+                   file = file.path("output", "mydata.csv"))
+  ```
+
+- Make sure your `.csv` file is not longer than 5000 rows
+- Make sure that any column names are understandable for reviewers
+
+### Figures
+
+- Before requesting figures, consider whether it is better to request a table of the underlying aggregate data, and then plot locally.
+  - Code to plot figures can be found in the `post-release` branch of existing projects (e.g., [post-covid-respiratory](https://github.com/opensafely/post-covid-respiratory/tree/post-release))
+  - You may wish to plot a figure within OpenSAFELY to check that it looks as expected within L4, but it is not necessary to request the release of this figure if you are then able to plot it locally.
+- Use `.svg`, `.jpeg`, or `.png` for figure outputs that will be sent to output checkers
+- Include a supporting `.csv` file with the underlying aggregated data from the figure
+
+### Other outputs
+
+- Other file types can be released, but do consider whether they could be released in `.csv` format instead. For filetypes not listed here, you may need to email OpenSAFELY directly to ask for permission to release them.
+- `.txt` files can be released and are also viewable on L4
+- `.json` files can be released, but as with tables, make sure that the attributes are easily understandable for reviewers
 
 ## Releasing output
 
-- Ensure your outputs are in the correct formats 
-  - `.csv` (not `.rds` or `.Rdata`) for tables of data
-  - `.txt` or `.html` if you want to view them in L4
+When you are ready to release your ouput, please check your outputs carefully (see the [documentation](https://docs.opensafely.org/outputs/output-checking/) for guidance) and then follow the steps below:
+
 - Ensure your outputs are marked as `moderately_sensitive` in your `project.yaml`
-- To release an output, please complete the 'Output files for review' section of [this form](https://docs.opensafely.org/documents/OpenSAFELY_Output_Review_Form_15_11_21.docx) and email to your assigned Bristol L4 access person
-- Bristol L4 access people will check the output on the server on your behalf, complete the rest of the form (including files locations), and email to datarelease@opensafely.org for final approval
+- Log into [Airlock](https://docs.opensafely.org/outputs/viewing-with-airlock/) and complete the output request. You can find examples of what Airlock looks like in another part of the [OpenSAFELY documentation](https://docs.opensafely.org/using-opensafely/viewing-and-releasing-outputs/viewing-and-releasing-with-airlock/how-tos/create-and-submit-a-release-request/). You will not be able to submit a request in any way other than through Airlock.
+- Generic examples of outputs can be found below. If you are creating a request (particularly if you'd like feedback from others), please adapt the guidance form that can be found on the grp-EHR [sharepoint](https://uob.sharepoint.com/:w:/r/teams/grp-ehr/Shared%20Documents/OpenSAFELY/OpenSAFELY_Output_Review_Form_Example.docx?d=wbe5ae02d097a461c938ca2f232a25690&csf=1&web=1&e=1FTzbP) and save it to your project directory so that you have a record of your request.
 
-<!--
-## Jupyter and Rmd notebooks
+Below, we have some example outputs from Bristol projects, with a level of detail that our output checkers have previously found helpful. You should include information in enough detail that reviewers can understand the output without needing to refer to other documentation. Each example will contain the following information:
 
-- If you use a Jupyter notebook create a folder called `notebooks` at the top level of your repo
-  - Only use Python code chunks within the notebook
-  - The action to compile the notebook will be of the form
+- Filegroup: this is the filegroup that the output belongs to, which is useful if you are requesting multiple files of the same format
+- File location: this is the location of the file/s within your project
+- Context: this is a description of the output, including what it shows and how it was generated. 
+- Column descriptions: this is a description of each column in the output.
+- Controls: this is a description of the disclosure controls that have been applied to the output, including any redaction or rounding that has been applied.
 
-    ``` yaml
-      generate_notebook:
-        run: jupyter:latest jupyter nbconvert /workspace/analysis/report.ipynb --execute --to html --template basic --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        needs:
-        outputs:
-          moderately_sensitive:
-            notebook: output/report.html
-    ```
+If you are re-requesting an output, you should include what has been updated since that last request. Additionally for re-requests, you can copy the text directly from your previous request in Airlock and then update it.
 
-- If you use an R Markdown notebook within your repo create a folder called `rmarkdown` at the top level of the repo
-  - In the YAML header of the .Rmd file define the output type as `output: html_document`
-  - Write a separate .R script that runs a single command 
-  
-    ``` r
-    rmarkdown::render('myrmdfile.Rmd', encoding = 'UTF-8') 
-    ```  
-  - And write an `r` action to run the script which will produce the .html output file
--->
+
+### Example Output: Table 1
+
++-----------+
+|**Filegroup: table 1**
++-----------+
+|**File location: output/table1_midpoint6.csv**
++-----------+
+|Context: Patient characteristics overall and in those with a COVID-19 diagnosis.   
+|  
+|**Column descriptions **
+|
+|Characteristic: Patient characteristic under consideration (e.g. Sex, Age Group) 
+|
+|Subcharacteristic: Patient sub characteristic under consideration (e.g. Female, 55-70) 
+|
+|N_people [midpoint6]: Number of people with each characteristic 
+|
+|(%) [midpoint6_derived]: % of total study population with characteristic
+| 
+|N_diagnoses [midpoint6]: Number of people with characteristic and COVID-19  
+|
+|(% exposed) [midpoint6_derived]: % of total study population with characteristic and COVID-19  
+|
+|Notes: 
+|
+|“midpoint6” refers to data which have had midpoint6 rounding applied directly. 
+|
+|“midpoint6_derived” refers to data which are derived from midpoint6 columns (e.g. subtracting two midpoint6 columns) 
++-----------+
+|Controls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output.  
++-----------+
+
+### Example Output: Flow Table
+
++-----------+
+|**Filegroup: flow**
++-----------+
+|**File location: output/flow_round5.csv**
++-----------+
+|Context: Table with numbers needed to generate a flow diagram, demonstrating how many people were removed from the dataset due to each of the inclusion/exclusion criteria and the quality assurance checks. 
+|  
+|**Column descriptions **
+|
+|Description: restrictive criteria being applied  
+|
+|N_round5: rounded total number of people remaining in the analysis  
+|
+|removed_round5_derived: rounded number of people removed due to criterion being applied 
++-----------+
+|Controls: We rounded all counts to the nearest 5 and redacted any counts <=7.
++-----------+
+
+### Example Output: Cox model output
+
++-----------+
+|**Filegroup: model output**
++-----------+
+|**File location: output/model_output-main-midpoint6.csv**, **output/model_output-subgroup-midpoint6.csv**
++-----------+
+| These data provide hazard ratios and supporting information, presented in 2 CSV files covering the whole population and a subgroup.  These were the main outputs of the project.  
+|
+|Context: Hazard ratios for incident respiratory conditions post COVID-19 in the pre-vaccination cohort.  Study population includes all registered patients in England aged 18 to 110, subject to cohort specific criteria.  
+|  
+|**Column descriptions **
+|
+|name: unique identifier for analysis  
+|
+|cohort: cohort used for the analysis  
+|
+|outcome: outcome used for the analysis  
+|
+|analysis: string to identify whether this is the ‘main’ analysis or a subgroup  
+|
+|error: captured error message if analysis did not run  
+|
+|model: string to identify whether the model adjustment  
+|
+|term: string to identify the term in the analysis  
+|
+|lnhr: log hazard ratio for the analysis  
+|
+|se_lnhr: standard error for the log hazard ratio for the analysis  
+|
+|hr: hazard ratio for the analysis  
+|
+|conf_low: lower confidence limit for the analysis  
+|
+|conf_high: higher confidence limit for the analysis  
+|
+|outcome_time_median: median time to outcome following exposure  
+|
+|strata_warning: string to identify strata variables that may cause model faults  
+|
+|surv_formula: survival formula for the analysis  
+|
+|N_total_midpoint6: rounded total number of people in the analysis  
+|
+|N_exposed_midpoint6: rounded total number of people with the exposure in the analysis  
+|
+|N_events_midpoint6: rounded total number of people with the outcome following exposure in the analysis  
+|
+|person_time_total_midpoint6: rounded total person time included in the analysis 
++-----------+
+|Controls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output.  
++-----------+
