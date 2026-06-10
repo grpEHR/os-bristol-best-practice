@@ -42,13 +42,9 @@ _main.rds
 
 **/*.quarto_ipynb
 
-# Local files
-*/*.css
-docs\\sitemap.xml
-docs\\index.html
-
 # Readme html
 README.html
 README_files/libs/quarto-html
 
-
+# Rendered site (built by GitHub Actions, published to gh-pages)
+/docs/
