@@ -48,3 +48,7 @@ README_files/libs/quarto-html
 
 # Rendered site (built by GitHub Actions, published to gh-pages)
 /docs/
+
+# Quarto/knitr render intermediates (transient — output goes to docs/)
+/*_files/
+/_freeze/
