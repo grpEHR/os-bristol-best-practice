@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/index.html</loc>
+    <lastmod>2026-06-10T11:08:07.250Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/01-study-definition.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/02-r-code.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/03-outputs.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/04-misc.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/05-docker-apple-silicon.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+  <url>
+    <loc>https://grpEHR.github.io/os-bristol-best-practice/99-session-info.html</loc>
+    <lastmod>2026-06-10T11:08:07.243Z</lastmod>
+  </url>
+</urlset>

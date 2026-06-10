@@ -1,0 +1,192 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "University of Bristol OpenSAFELY Best Practice",
+    "section": "",
+    "text": "Introduction\nThe following is intended as a set of tips for users of the OpenSAFELY system at the University of Bristol.\nPlease use the menu to the left to read the different sections.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "01-study-definition.html",
+    "href": "01-study-definition.html",
+    "title": "1  Study definition",
+    "section": "",
+    "text": "1.1 Reproducibile dummy data",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Study definition</span>"
+    ]
+  },
+  {
+    "objectID": "01-study-definition.html#reproducibile-dummy-data",
+    "href": "01-study-definition.html#reproducibile-dummy-data",
+    "title": "1  Study definition",
+    "section": "",
+    "text": "To ensure the dummy data system generates exactly the same data every time you run it, set a random number generator seed at the top of the study_definition.py file\nimport numpy as np\n# Change this number to one for which your scripts \n# successfully run on the dummy data\nnp.random.seed(123456)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Study definition</span>"
+    ]
+  },
+  {
+    "objectID": "01-study-definition.html#file-formats",
+    "href": "01-study-definition.html#file-formats",
+    "title": "1  Study definition",
+    "section": "1.2 File formats",
+    "text": "1.2 File formats\n\nUse .feather files for outputs from the cohortextractor, so specify an action in your project.yaml as follows\ngenerate_study_population:\n  run: cohortextractor:latest generate_cohort --study-definition study_definition --output-format feather\n needs: \n  - design\n  outputs:\n    highly_sensitive:\n      cohort: output/input.feather\nUse the arrow package to read .feather files into R\narrow::read_feather(file = file.path(\"output\", \"input.feather\"))\n\nThe col_select argument can be used to read in just the columns you need\n\nStart each project with a preprocessing action that formats .feather files and outputs (gzipped) .rds files which can be saved with readr::write_rds()\nreadr::write_rds(object, \n                 file.path(\"output\", \"mydata.rds\"), \n                 compress = \"gz\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Study definition</span>"
+    ]
+  },
+  {
+    "objectID": "02-r-code.html",
+    "href": "02-r-code.html",
+    "title": "2  R code",
+    "section": "",
+    "text": "2.1 File formats",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>R code</span>"
+    ]
+  },
+  {
+    "objectID": "02-r-code.html#file-formats",
+    "href": "02-r-code.html#file-formats",
+    "title": "2  R code",
+    "section": "",
+    "text": "As per the study definition best practice, outputs from the cohortextractor should be provided as .rds files\nUse the readr package to read and write .rds files\nobject &lt;- readr::read_rds(file.path(\"output\", \"mydata.rds\"))\nreadr::write_rds(object, \n                 file.path(\"output\", \"mydata.rds\"),\n                 compress = \"gz\")\n\n\n\nAll .rds files should all be classified as highly_sensitive in actions, as they cannot be opened on the results server and therefore cannot be reviewed or released.\nreadr::write_rds() does not compress files by default. It is recommended that you compress .rds files using the argument compress = \"gz\".\nUse file.path() to construct file paths that are reproducible across operating systems.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>R code</span>"
+    ]
+  },
+  {
+    "objectID": "02-r-code.html#supported-packages",
+    "href": "02-r-code.html#supported-packages",
+    "title": "2  R code",
+    "section": "2.2 Supported packages",
+    "text": "2.2 Supported packages\n\nThe R packages (and their version number) which are installed in the OpenSAFELY R Docker container are listed here\nTo request a new package, which should be on CRAN, open a new issue here, including the link to its CRAN webpage",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>R code</span>"
+    ]
+  },
+  {
+    "objectID": "02-r-code.html#rstudio-project",
+    "href": "02-r-code.html#rstudio-project",
+    "title": "2  R code",
+    "section": "2.3 RStudio project",
+    "text": "2.3 RStudio project\n\nDefine your repo as an RStudio project in RStudio as follows\n\nFile | New Project…\n\n\n\n\n\n\n\n\n\nExisting Directory\n\n\n\n\n\n\n\n\n\nThen find your repo\nThis will create a .Rproj file at the top level of your repo\nCommit the file into your repo\nNow you can double click the .Rproj file to open the repo in RStudio, so you can work on your R scripts more conveniently",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>R code</span>"
+    ]
+  },
+  {
+    "objectID": "03-outputs.html",
+    "href": "03-outputs.html",
+    "title": "3  Outputs for release",
+    "section": "",
+    "text": "3.1 Checklist\nThe OpenSAFELY documentation provides the following checklist to consult before submitting a review request.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Outputs for release</span>"
+    ]
+  },
+  {
+    "objectID": "03-outputs.html#checklist",
+    "href": "03-outputs.html#checklist",
+    "title": "3  Outputs for release",
+    "section": "",
+    "text": "Do your results adhere to the OpenSAFELY permitted study results policy\nAre all of the outputs of the allowed file types?\nHave you redacted any low counts?\nHave you rounded any counts (including counts underlying rates)?\nHave you supplied underlying counts for all of your results?\nAre all of the outputs clearly described? Have you provided all of the context needed to review each output in isolation? Have you described the disclosure controls you have applied to each output?\nIf you are requesting the release of log files, are you sure they need to be released?\nAre all of the requested files below the maximum file size?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Outputs for release</span>"
+    ]
+  },
+  {
+    "objectID": "03-outputs.html#redaction-and-rounding",
+    "href": "03-outputs.html#redaction-and-rounding",
+    "title": "3  Outputs for release",
+    "section": "3.2 Redaction and rounding",
+    "text": "3.2 Redaction and rounding\nFor up-to-date information about statistical disclosure control, please see the relevant OpenSAFELY documentation.\nAll outputs for release should be classified as moderately_sensitive in actions.\nOpenSAFELY does not permit information relating to between 1 and less than 5 individuals to be released. Redaction functions are available from other users to help you prepare your output.\nIf you have to maintain “0”s in your output, please use “midpoint6” rounding, which rounds to the nearest odd multiple of 3. Otherwise, please round to the nearest 5 and redact any counts &lt;=7.\n\n3.2.1 Example Rounding Table\n\n\n\nCount\nMidpoint6\nRound5\n\n\n\n\n0\n0\n0\n\n\n1\n3\n0\n\n\n2\n3\n0\n\n\n3\n3\n0\n\n\n4\n3\n0\n\n\n5\n3\n0\n\n\n6\n3\n0\n\n\n7\n9\n0\n\n\n8\n9\n10\n\n\n9\n9\n10\n\n\n10\n9\n10\n\n\n11\n9\n10\n\n\n12\n9\n10\n\n\n13\n15\n15\n\n\n\n\n\n3.2.2 Example R code for midpoint6 rounding\nroundmid_any &lt;- function(x, to = 6) {\n  # centers on (integer) midpoint of the rounding points\n  x &lt;- as.numeric(x)\n  ceiling(x / to) * to - (floor(to / 2) * (x != 0))\n}",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Outputs for release</span>"
+    ]
+  },
+  {
+    "objectID": "03-outputs.html#allowed-file-types",
+    "href": "03-outputs.html#allowed-file-types",
+    "title": "3  Outputs for release",
+    "section": "3.3 Allowed file types",
+    "text": "3.3 Allowed file types\nOnly certain outputs are allowed to be released from OpenSAFELY, and these must be in specific formats. For up-to-date information about statistical disclosure control, please see the relevant OpenSAFELY documentation for up to date information. The maximum file size is 16MB, regardless of filetype.\n\n3.3.1 Tables\n\nUse readr::write_csv() to save .csv files that will be sent to output checkers (this is about twice as fast as utils::write.csv() and does not write row names).\nreadr::write_csv(object, \n                 file = file.path(\"output\", \"mydata.csv\"))\nMake sure your .csv file is not longer than 5000 rows\nMake sure that any column names are understandable for reviewers\n\n\n\n3.3.2 Figures\n\nBefore requesting figures, consider whether it is better to request a table of the underlying aggregate data, and then plot locally.\n\nCode to plot figures can be found in the post-release branch of existing projects (e.g., post-covid-respiratory)\nYou may wish to plot a figure within OpenSAFELY to check that it looks as expected within L4, but it is not necessary to request the release of this figure if you are then able to plot it locally.\n\nUse .svg, .jpeg, or .png for figure outputs that will be sent to output checkers\nInclude a supporting .csv file with the underlying aggregated data from the figure\n\n\n\n3.3.3 Other outputs\n\nOther file types can be released, but do consider whether they could be released in .csv format instead. For filetypes not listed here, you may need to email OpenSAFELY directly to ask for permission to release them.\n.txt files can be released and are also viewable on L4\n.json files can be released, but as with tables, make sure that the attributes are easily understandable for reviewers",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Outputs for release</span>"
+    ]
+  },
+  {
+    "objectID": "03-outputs.html#releasing-output",
+    "href": "03-outputs.html#releasing-output",
+    "title": "3  Outputs for release",
+    "section": "3.4 Releasing output",
+    "text": "3.4 Releasing output\nWhen you are ready to release your ouput, please check your outputs carefully (see the documentation for guidance) and then follow the steps below:\n\nEnsure your outputs are marked as moderately_sensitive in your project.yaml\nLog into Airlock and complete the output request. You can find examples of what Airlock looks like in another part of the OpenSAFELY documentation. You will not be able to submit a request in any way other than through Airlock.\nGeneric examples of outputs can be found below. If you are creating a request (particularly if you’d like feedback from others), please adapt the guidance form that can be found on the grp-EHR sharepoint and save it to your project directory so that you have a record of your request.\n\nBelow, we have some example outputs from Bristol projects, with a level of detail that our output checkers have previously found helpful. You should include information in enough detail that reviewers can understand the output without needing to refer to other documentation. Each example will contain the following information:\n\nFilegroup: this is the filegroup that the output belongs to, which is useful if you are requesting multiple files of the same format\nFile location: this is the location of the file/s within your project\nContext: this is a description of the output, including what it shows and how it was generated.\nColumn descriptions: this is a description of each column in the output.\nControls: this is a description of the disclosure controls that have been applied to the output, including any redaction or rounding that has been applied.\n\nIf you are re-requesting an output, you should include what has been updated since that last request. Additionally for re-requests, you can copy the text directly from your previous request in Airlock and then update it.\n\n3.4.1 Example Output: Table 1\n\n\n\n\n\n\nFilegroup: table 1\n\n\nFile location: output/table1_midpoint6.csv\n\n\nContext: Patient characteristics overall and in those with a COVID-19 diagnosis.\nColumn descriptions \nCharacteristic: Patient characteristic under consideration (e.g. Sex, Age Group)\nSubcharacteristic: Patient sub characteristic under consideration (e.g. Female, 55-70)\nN_people [midpoint6]: Number of people with each characteristic\n(%) [midpoint6_derived]: % of total study population with characteristic\nN_diagnoses [midpoint6]: Number of people with characteristic and COVID-19\n(% exposed) [midpoint6_derived]: % of total study population with characteristic and COVID-19\nNotes:\n“midpoint6” refers to data which have had midpoint6 rounding applied directly.\n“midpoint6_derived” refers to data which are derived from midpoint6 columns (e.g. subtracting two midpoint6 columns)\n\n\nControls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output\n\n\n\n\n\n3.4.2 Example Output: Flow Table\n\n\n\n\n\n\nFilegroup: flow\n\n\nFile location: output/flow_round5.csv\n\n\nContext: Table with numbers needed to generate a flow diagram, demonstrating how many people were removed from the dataset due to each of the inclusion/exclusion criteria and the quality assurance checks\nColumn descriptions \nDescription: restrictive criteria being applied\nN_round5: rounded total number of people remaining in the analysis\nremoved_round5_derived: rounded number of people removed due to criterion being applied\n\n\nControls: We rounded all counts to the nearest 5 and redacted any counts &lt;=7.\n\n\n\n\n\n3.4.3 Example Output: Cox model output\n\n\n\n\n\n\nFilegroup: model output\n\n\nFile location: output/model_output-main-midpoint6.csv, output/model_output-subgroup-midpoint6.csv\n\n\nThese data provide hazard ratios and supporting information, presented in 2 CSV files covering the whole population and a subgroup. These were the main outputs of the project.\nContext: Hazard ratios for incident respiratory conditions post COVID-19 in the pre-vaccination cohort. Study population includes all registered patients in England aged 18 to 110, subject to cohort specific criteria.\nColumn descriptions \nname: unique identifier for analysis\ncohort: cohort used for the analysis\noutcome: outcome used for the analysis\nanalysis: string to identify whether this is the ‘main’ analysis or a subgroup\nerror: captured error message if analysis did not run\nmodel: string to identify whether the model adjustment\nterm: string to identify the term in the analysis\nlnhr: log hazard ratio for the analysis\nse_lnhr: standard error for the log hazard ratio for the analysis\nhr: hazard ratio for the analysis\nconf_low: lower confidence limit for the analysis\nconf_high: higher confidence limit for the analysis\noutcome_time_median: median time to outcome following exposure\nstrata_warning: string to identify strata variables that may cause model faults\nsurv_formula: survival formula for the analysis\nN_total_midpoint6: rounded total number of people in the analysis\nN_exposed_midpoint6: rounded total number of people with the exposure in the analysis\nN_events_midpoint6: rounded total number of people with the outcome following exposure in the analysis\nperson_time_total_midpoint6: rounded total person time included in the analysis\n\n\nControls: We rounded all counts up to nearest 6 then subtracted 3 using the roundmid_any function to obscure counts. Counts less than 6 therefore appear as ‘3’. Counts of zero are maintained and considered structural for this output",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Outputs for release</span>"
+    ]
+  },
+  {
+    "objectID": "04-misc.html",
+    "href": "04-misc.html",
+    "title": "4  Miscellaneous",
+    "section": "",
+    "text": "4.1 Text files",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Miscellaneous</span>"
+    ]
+  },
+  {
+    "objectID": "04-misc.html#text-files",
+    "href": "04-misc.html#text-files",
+    "title": "4  Miscellaneous",
+    "section": "",
+    "text": "Text files should end with a newline character (i.e., a blank line)\n\nIf you see the following red icon at the end of a file on GitHub, simply press ↵ Enter at the end of the file (i.e., in this case after the word Catalog), resave, commit, and the red icon should be gone",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Miscellaneous</span>"
+    ]
+  },
+  {
+    "objectID": "04-misc.html#python-and-r-versions",
+    "href": "04-misc.html#python-and-r-versions",
+    "title": "4  Miscellaneous",
+    "section": "4.2 Python and R versions",
+    "text": "4.2 Python and R versions\n\nThe versions of Python and R in their respective OpenSAFELY Docker containers are (as of 15th February 2023):\n\nPython 3.8.10\nR 4.0.5 (was R 4.0.2 upto and including 15/02/2023)\n\nThe Python and R code run within their respective Docker containers. Hence the version of Python and R used to run your analyses are the versions of Python and R in these Docker containers and not the versions of Python and R on your computer\nTo see the Python version number insert in your study_definition.py\nimport sys\nprint(sys.implementation.version)\nTo see the R version number insert into one of your R analysis scripts\nprint(R.version.string)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Miscellaneous</span>"
+    ]
+  },
+  {
+    "objectID": "05-docker-apple-silicon.html",
+    "href": "05-docker-apple-silicon.html",
+    "title": "5  Rosetta for Linux Docker feature on Apple Silicon Macs",
+    "section": "",
+    "text": "If you have an Apple Silicon Mac if you enable the Rosetta for Linux beta feature in Docker the OpenSAFELY Docker containers will run faster on your machine.\nTo enable this\n\nMake sure you have Docker version 4.16.0 or higher installed\nOpen the Docker dashboard and go into Settings (click the cog icon in top right hand corner)\nGo to Features in development and within that the Beta features tab\nCheck the box for Use Rosetta for x86/amd64 emulation on Apple Silicon\nClick Apply & restart",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Rosetta for Linux Docker feature on Apple Silicon Macs</span>"
+    ]
+  },
+  {
+    "objectID": "99-session-info.html",
+    "href": "99-session-info.html",
+    "title": "6  Session information",
+    "section": "",
+    "text": "6.1 Session information\nFor reproducibilty.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Session information</span>"
+    ]
+  },
+  {
+    "objectID": "99-session-info.html#session-information",
+    "href": "99-session-info.html#session-information",
+    "title": "6  Session information",
+    "section": "",
+    "text": "Click here for R session information\n\n\nsessioninfo::session_info()\n## ─ Session info ───────────────────────────────────────────────────────────────\n##  setting  value\n##  version  R version 4.6.0 (2026-04-24)\n##  os       Ubuntu 24.04.4 LTS\n##  system   x86_64, linux-gnu\n##  ui       X11\n##  language (EN)\n##  collate  C.UTF-8\n##  ctype    C.UTF-8\n##  tz       UTC\n##  date     2026-06-10\n##  pandoc   3.1.3 @ /usr/bin/ (via rmarkdown)\n##  quarto   1.9.38 @ /usr/local/bin/quarto\n## \n## ─ Packages ───────────────────────────────────────────────────────────────────\n##  package     * version date (UTC) lib source\n##  cli           3.6.6   2026-04-09 [1] RSPM\n##  digest        0.6.39  2025-11-19 [1] RSPM\n##  evaluate      1.0.5   2025-08-27 [1] RSPM\n##  fastmap       1.2.0   2024-05-15 [1] RSPM\n##  htmltools     0.5.9   2025-12-04 [1] RSPM\n##  jsonlite      2.0.0   2025-03-27 [1] RSPM\n##  knitr         1.51    2025-12-20 [1] any (@1.51)\n##  rlang         1.2.0   2026-04-06 [1] RSPM\n##  rmarkdown     2.31    2026-03-26 [1] any (@2.31)\n##  sessioninfo   1.2.4   2026-06-04 [1] any (@1.2.4)\n##  xfun          0.58    2026-06-01 [1] RSPM\n## \n##  [1] /home/runner/work/_temp/Library\n##  [2] /opt/R/4.6.0/lib/R/site-library\n##  [3] /opt/R/4.6.0/lib/R/library\n## \n## ──────────────────────────────────────────────────────────────────────────────\nquarto::quarto_version()\n## [1] '1.9.38'",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Session information</span>"
+    ]
+  }
+]
