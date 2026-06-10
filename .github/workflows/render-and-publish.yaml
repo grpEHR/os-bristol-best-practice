@@ -65,6 +65,11 @@ jobs:
       #     CONNECT_SERVER: enter-the-server-url-here
       #     CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }} 
 
+      # On pull requests, just render to confirm the build succeeds (no publish)
+      - name: Render (PR check only)
+        if: github.event_name == 'pull_request'
+        uses: quarto-dev/quarto-actions/render@v2
+
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages (and render)
         if: github.event_name != 'pull_request'
