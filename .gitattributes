@@ -1,6 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Shell scripts must always use LF endings (they break with CRLF)
+*.sh text eol=lf
+
 # Ignore .html files from Languages pane statistics
 *.html linguist-vendored
 
